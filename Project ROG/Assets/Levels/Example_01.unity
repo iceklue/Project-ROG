@@ -485,7 +485,6 @@ GameObject:
   - component: {fileID: 860431884}
   - component: {fileID: 860431885}
   - component: {fileID: 860431887}
-  - component: {fileID: 860431886}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -574,7 +573,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04488c760a4c57c4cb9653aa8424e307, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camTarget: {x: 0, y: 0, z: 0, w: 0}
   lerpFactor: 1
   cameraAngele: 45
 --- !u!114 &860431885
@@ -589,27 +587,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   profile: {fileID: 11400000, guid: f643e30db00c03e49a5c76460dc956f8, type: 2}
---- !u!114 &860431886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 860431878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_TransformSyncMode: 1
-  m_SendInterval: 0.033333335
-  m_SyncRotationAxis: 7
-  m_RotationSyncCompression: 0
-  m_SyncSpin: 0
-  m_MovementTheshold: 0.001
-  m_VelocityThreshold: 0.0001
-  m_SnapThreshold: 5
-  m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
 --- !u!114 &860431887
 MonoBehaviour:
   m_ObjectHideFlags: 0
