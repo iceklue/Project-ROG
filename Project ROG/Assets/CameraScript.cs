@@ -26,6 +26,8 @@ public class CameraScript : NetworkBehaviour
     public float rotSmooth = 0.1f;
     public float moveSmooth = 0.5f;
 
+    public Transform lastCameraNode;
+
     // Use this for initialization
     private void Start ()
     {
@@ -40,9 +42,10 @@ public class CameraScript : NetworkBehaviour
 	    if (currentTile != null && currentTile != lastTile)
 	    {
 	        lastTile = currentTile;
+	        lastCameraNode = currentTile.GetComponent<TileScript>().cameraNode;
             Debug.Log("Group entered another tile");
             StopCoroutine("MoveCamera");
-	        StartCoroutine("MoveCamera", lastTile.GetComponent<TileScript>().cameraNode);
+	        StartCoroutine("MoveCamera", lastCameraNode);
 	    }
 
 	}
@@ -79,11 +82,12 @@ public class CameraScript : NetworkBehaviour
             if (playerObject.GetComponent<Player>().isImportant)
                 groupPosition += playerObject.transform.position;
         }
-        groupPosition.z = 0f;
+        //groupPosition.z = 0f;
         groupPosition = groupPosition / GameManager.currentInstance.players.Count;
 
         //rotate towards group
         Quaternion lookQuat = Quaternion.FromToRotation(Vector3.forward, groupPosition - transform.position);
+        Debug.DrawRay(transform.position, transform.TransformDirection(lookQuat.eulerAngles));
         lookQuat = Quaternion.Euler(lookQuat.eulerAngles.x - verticalOffset, lookQuat.eulerAngles.y, 0);
 
         transform.rotation = Quaternion.Slerp(transform.rotation, lookQuat, rotSmooth);
@@ -108,7 +112,7 @@ public class CameraScript : NetworkBehaviour
         Debug.Log(targetPos);
         while ((targetPos - transform.position).sqrMagnitude > 0.2f)
         {
-            transform.position = Vector3.Lerp(transform.position, targetPos, moveSmooth);
+            transform.position = Vector3.Slerp(transform.position, targetPos, moveSmooth);
             yield return new WaitForFixedUpdate();
         }
         yield break;

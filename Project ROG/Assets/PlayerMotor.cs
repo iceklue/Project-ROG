@@ -8,14 +8,18 @@ public class PlayerMotor : MonoBehaviour
 
     private Rigidbody playerRb;
     private Camera cam;
+    private CameraScript camScript;
+
+    public Transform headTest;
 
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         player = GetComponent<Player>();
         playerRb = GetComponent<Rigidbody>();
         cam = GetComponentInChildren<Camera>();
-	}
+	    camScript = Camera.main.GetComponent<CameraScript>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,7 +37,8 @@ public class PlayerMotor : MonoBehaviour
     {
         // Calculate how fast we should be moving
         Vector3 targetVelocity = new Vector3(input.x, 0, input.y).normalized;
-        targetVelocity = transform.TransformDirection(targetVelocity);
+        Debug.Log(camScript.lastCameraNode.forward);
+        targetVelocity = camScript.lastCameraNode.TransformDirection(targetVelocity);
 
         if (input.y > 0)
          {
@@ -95,8 +100,9 @@ public class PlayerMotor : MonoBehaviour
 
     }
 
-    public void DoRotation(float _x, float _y)
-    {
-
+    public void DoRotation(Vector3 target)
+    { 
+        Quaternion look =  Quaternion.FromToRotation(Vector3.forward, (target - headTest.position));
+        headTest.rotation = Quaternion.Euler(look.eulerAngles.x, look.eulerAngles.y,0);
     }
 }

@@ -58,6 +58,7 @@ public class Player : NetworkBehaviour
         GetComponentInChildren<MeshRenderer>().material.color = Color.blue;
         distToGround = GetComponent<Collider>().bounds.extents.y;
         info.netId = GetComponent<NetworkIdentity>().netId;
+        
     }
 
     public override void OnStartServer()
