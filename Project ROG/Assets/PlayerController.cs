@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour {
                 mousePositionWorld = hit.point;
                 mousePositionWorld.y = transform.position.y;
             }
-            Debug.Log(mousePositionWorld);
+          
         }
 
         //keyboard input

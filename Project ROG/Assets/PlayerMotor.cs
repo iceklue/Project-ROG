@@ -37,26 +37,28 @@ public class PlayerMotor : MonoBehaviour
     {
         // Calculate how fast we should be moving
         Vector3 targetVelocity = new Vector3(input.x, 0, input.y).normalized;
-        Debug.Log(camScript.lastCameraNode.forward);
         targetVelocity = camScript.lastCameraNode.TransformDirection(targetVelocity);
-
-        if (input.y > 0)
-         {
-             targetVelocity *= player.movement.moveSpeedForwards;
-         }
-         else if (input.y < 0)
-         {
-             targetVelocity *= player.movement.moveSpeedBackwards;
-         }
+        Debug.Log(Vector3.Dot(targetVelocity, headTest.forward));
+        if (Vector3.Dot(targetVelocity, headTest.forward) > 0.3f)
+        {
+        Debug.Log("forward");
+        targetVelocity *= player.movement.moveSpeedForwards;
+        }
+         else if (Vector3.Dot(targetVelocity, headTest.forward) < -0.3f)
+        {
+        Debug.Log("backwards");
+        targetVelocity *= player.movement.moveSpeedBackwards;
+        }
          else
-         {
-             targetVelocity *= player.movement.strafeSpeed;
-         }
+        {
+            targetVelocity *= player.movement.strafeSpeed;
+        }
+
         if(player.movement.isRunning)
         {
             return targetVelocity * player.movement.moveSpeedMultiplier * 1.4f;
         }
-        else
+         else
         {
             return targetVelocity * player.movement.moveSpeedMultiplier;
         }
