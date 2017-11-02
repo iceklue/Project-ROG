@@ -37,7 +37,7 @@ public class PlayerMotor : MonoBehaviour
     {
         // Calculate how fast we should be moving
         Vector3 targetVelocity = new Vector3(input.x, 0, input.y).normalized;
-        targetVelocity = camScript.lastCameraNode.TransformDirection(targetVelocity);
+        targetVelocity = transform.TransformDirection(targetVelocity);//camScript.lastCameraNode.TransformDirection(targetVelocity);
         Debug.Log(Vector3.Dot(targetVelocity, headTest.forward));
         if (Vector3.Dot(targetVelocity, headTest.forward) > 0.3f)
         {
@@ -105,6 +105,6 @@ public class PlayerMotor : MonoBehaviour
     public void DoRotation(Vector3 target)
     { 
         Quaternion look =  Quaternion.FromToRotation(Vector3.forward, (target - headTest.position));
-        headTest.rotation = Quaternion.Euler(look.eulerAngles.x, look.eulerAngles.y,0);
+        transform.rotation = Quaternion.Euler(look.eulerAngles.x, look.eulerAngles.y,0);
     }
 }

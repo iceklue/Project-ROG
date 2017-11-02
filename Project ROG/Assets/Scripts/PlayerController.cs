@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour {
             }
           
         }
+    
 
         //keyboard input
         if (Input.GetButtonDown("Cancel"))

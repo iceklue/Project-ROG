@@ -41,11 +41,11 @@ public class CameraScript : NetworkBehaviour
 	    GameObject currentTile = GetCurrentTile();
 	    if (currentTile != null && currentTile != lastTile)
 	    {
-	        lastTile = currentTile;
-	        lastCameraNode = currentTile.GetComponent<TileScript>().cameraNode;
+	       // lastCameraNode = currentTile.GetComponent<TileScript>().cameraNode;
+            lastTile = currentTile;
             Debug.Log("Group entered another tile");
             StopCoroutine("MoveCamera");
-	        StartCoroutine("MoveCamera", lastCameraNode);
+	        StartCoroutine("MoveCamera", currentTile);
 	    }
 
 	}
@@ -106,13 +106,25 @@ public class CameraScript : NetworkBehaviour
         return null;
     }
 
-    private IEnumerator MoveCamera(Transform target)
+    private IEnumerator MoveCamera(GameObject target)
     {
-        Vector3 targetPos = new Vector3(target.position.x, target.localPosition.y + heightOffset, target.position.z);
+        //yield return new WaitForSeconds(2f);
+        lastCameraNode = target.GetComponent<TileScript>().cameraNode;
+        float currentlerptime = 0;
+        float lerptime = 55;
+        Vector3 targetPos = new Vector3(lastCameraNode.position.x, lastCameraNode.localPosition.y + heightOffset, lastCameraNode.position.z);
         Debug.Log(targetPos);
-        while ((targetPos - transform.position).sqrMagnitude > 0.2f)
+        while ((targetPos - transform.position).sqrMagnitude > 0.01f)
         {
-            transform.position = Vector3.Slerp(transform.position, targetPos, moveSmooth);
+            //increment timer once per frame
+            currentlerptime += Time.fixedDeltaTime;
+            if (currentlerptime > lerptime)
+            {
+                currentlerptime = lerptime;
+            }
+            //lerp!
+            float perc = currentlerptime / lerptime;
+            transform.position = Vector3.Lerp(transform.position, targetPos, perc);
             yield return new WaitForFixedUpdate();
         }
         yield break;
